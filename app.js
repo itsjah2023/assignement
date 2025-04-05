@@ -16,7 +16,7 @@ document.getElementById("generateBtn").addEventListener("click", () => {
   // Fetch a random image 
   fetch('https://api.api-ninjas.com/v1/randomimage', {
     headers: { 
-        'X-Api-Key': '',
+        'X-Api-Key': 'GupOuCgNJJvauYbDTit2dw==kPDeMYExqkOW0AuN',
         'Accept': 'image/jpg'
     }
 })
