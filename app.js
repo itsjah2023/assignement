@@ -1,35 +1,40 @@
-const greetings = [
-  "Hello, sunshine!",
-  "Good day to explore!",
-  "Smile, it's a beautiful moment!",
-  "Here's your daily dose of beauty!",
-  "Embrace the day!",
-  "Picture-perfect moment incoming!",
-  "Hope this brightens your day!"
-];
-
-document.getElementById("generateBtn").addEventListener("click", () => {
-  // Pick a random greeting
-  const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-  document.getElementById("greeting").textContent = randomGreeting;
-
-  // Fetch a random image 
-  fetch('https://api.api-ninjas.com/v1/randomimage', {
-    headers: { 
-        'X-Api-Key': 'GupOuCgNJJvauYbDTit2dw==kPDeMYExqkOW0AuN',
-        'Accept': 'image/jpg'
-    }
-})
-.then(response => response.blob())
-.then(blob => {
-    const img = document.createElement('img');
-    img.src = URL.createObjectURL(blob);
-    document.body.appendChild(img);
-})
-.catch(error => {
-    console.error('Error:', error);
-
-      document.getElementById("greeting").textContent = "Oops! Couldn't load a picture.";
+document.getElementById('generateBtn').addEventListener('click', () => {
+  generateGreetingWithImage()
+    .then(({ greeting, imageUrl }) => {
+      document.getElementById('greeting').textContent = greeting;
+      document.getElementById('picture').src = imageUrl;
+    })
+    .catch(err => {
+      console.error('Something went wrong:', err);
     });
-    
-  });  
+});
+
+function generateGreetingWithImage() {
+  return new Promise((resolve, reject) => {
+    try {
+      const greetings = [
+        "Rise and Shine",
+        "Better Days are coming",
+        "Hope life is treating you well",
+        "You are a perfect human being",
+        "I wish nothing but the best from you",
+        "Just go for it!"
+      ];
+
+      const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+
+      fetchRandomImage()
+        .then(imageUrl => {
+          resolve({ greeting: randomGreeting, imageUrl });
+        })
+        .catch(err => reject(err));
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+function fetchRandomImage() {
+  return fetch('https://picsum.photos/800/400')
+    .then(response => response.url);
+}
